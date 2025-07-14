@@ -1,0 +1,90 @@
+Project 2: Quiz Game
+
+🟢 Code (HTML + CSS + JavaScript)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Quiz Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #eef; }
+    .container { max-width: 600px; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; }
+    .question { font-weight: bold; }
+    .options button { display: block; width: 100%; margin: 5px 0; padding: 10px; }
+    #result { font-size: 1.2em; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Quiz Game</h2>
+    <div id="quiz"></div>
+    <div id="result"></div>
+    <button onclick="nextQuestion()">Next Question</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is the capital of France?",
+        options: ["Paris", "London", "Berlin", "Rome"],
+        answer: "Paris"
+      },
+      {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Jupiter", "Saturn"],
+        answer: "Mars"
+      },
+      {
+        question: "Who wrote 'Hamlet'?",
+        options: ["Shakespeare", "Hemingway", "Dickens", "Tolstoy"],
+        answer: "Shakespeare"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      let q = questions[current];
+      let quizDiv = document.getElementById("quiz");
+      quizDiv.innerHTML = `
+        <div class="question">${q.question}</div>
+        <div class="options">
+          ${q.options.map(option => <button onclick="checkAnswer('${option}')">${option}</button>).join("")}
+        </div>`;
+      document.getElementById("result").textContent = "";
+    }
+
+    function checkAnswer(selected) {
+      if (selected === questions[current].answer) {
+        document.getElementById("result").textContent = "✅ Correct!";
+        score++;
+      } else {
+        document.getElementById("result").textContent = "❌ Wrong!";
+      }
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < questions.length) {
+        loadQuestion();
+      } else {
+        document.getElementById("quiz").innerHTML = "Quiz Completed!";
+        document.getElementById("result").textContent = Your score: ${score}/${questions.length};
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
+
+Output Example
+
+When you open this in the browser:
+* The quiz starts with a question and four options.
+* You click an answer, it shows ✅ Correct or ❌ Wrong.
+* Clicking “Next Question” moves to the next.
+* At the end, it shows your final score.
